@@ -25,28 +25,9 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
 
-document.querySelectorAll(".reveal, .card, .service, .stat, .reason").forEach((el) => {
+document.querySelectorAll(".reveal, .card, .service, .stat, .reason, .method-item").forEach((el) => {
   el.classList.add("reveal");
   revealObserver.observe(el);
-});
-
-document.querySelectorAll("[data-count]").forEach((el) => {
-  const target = Number(el.dataset.count);
-  const suffix = el.dataset.suffix || "";
-  const prefix = el.dataset.prefix || "";
-  const observer = new IntersectionObserver(([entry]) => {
-    if (!entry.isIntersecting) return;
-    let current = 0;
-    const step = Math.max(1, Math.round(target / 60));
-    const tick = () => {
-      current = Math.min(target, current + step);
-      el.textContent = `${prefix}${current.toLocaleString("pt-BR")}${suffix}`;
-      if (current < target) requestAnimationFrame(tick);
-    };
-    tick();
-    observer.disconnect();
-  }, { threshold: 0.5 });
-  observer.observe(el);
 });
 
 const sim = {
@@ -137,4 +118,39 @@ document.querySelector("#sim-whats")?.addEventListener("click", () => {
 Lotes estimados: ${lotes}
 VGV estimado: ${vgv}`;
   window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, "_blank");
+});
+
+document.querySelectorAll("[data-video]").forEach((wrap) => {
+  wrap.addEventListener("click", () => {
+    if (wrap.querySelector("iframe")) return;
+    const id = wrap.dataset.video;
+    const start = wrap.dataset.start || "0";
+    wrap.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&start=${start}&rel=0" title="Vídeo Equipe Lote" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  });
+});
+
+const lightbox = document.createElement("div");
+lightbox.className = "lightbox";
+lightbox.innerHTML = '<button type="button" class="lightbox-close" aria-label="Fechar">×</button><img alt="">';
+document.body.appendChild(lightbox);
+const lightboxImg = lightbox.querySelector("img");
+
+function openLightbox(src, alt) {
+  lightboxImg.src = src;
+  lightboxImg.alt = alt || "";
+  lightbox.classList.add("open");
+}
+
+function closeLightbox() {
+  lightbox.classList.remove("open");
+}
+
+document.querySelectorAll(".gallery img, .photo-frame img").forEach((img) => {
+  img.addEventListener("click", () => openLightbox(img.src, img.alt));
+});
+lightbox.addEventListener("click", (e) => {
+  if (e.target !== lightboxImg) closeLightbox();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeLightbox();
 });
