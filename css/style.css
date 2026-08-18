@@ -543,6 +543,44 @@ h2 {
   gap: 14px;
 }
 
+.mentor-name span {
+  color: var(--green);
+}
+
+.hl {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.mentor-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.mentor-stats article {
+  padding: 16px 12px;
+  border-radius: 16px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+}
+
+.mentor-stats b {
+  display: block;
+  font-family: var(--display);
+  font-size: 1.25rem;
+  color: var(--green-bright);
+  letter-spacing: -0.03em;
+}
+
+.mentor-stats span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .stat {
   padding: 28px 22px;
   border-radius: 20px;
@@ -1218,7 +1256,8 @@ h2 {
 @media (max-width: 640px) {
   .services-grid,
   .gallery,
-  .method-grid { grid-template-columns: 1fr; }
+  .method-grid,
+  .mentor-stats { grid-template-columns: 1fr; }
   .hero { padding: 110px 0 48px; min-height: auto; }
   .cta-band { padding: 36px 22px; }
   .hero-actions .btn { width: 100%; }
